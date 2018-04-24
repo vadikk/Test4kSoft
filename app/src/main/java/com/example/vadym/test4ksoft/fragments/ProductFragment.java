@@ -56,7 +56,7 @@ public class ProductFragment extends Fragment {
 
     private void setItemToListAdapter() {
         List<Coffee> coffeeList = new ArrayList<>();
-        Coffee coffee1 = new Coffee("Late", R.drawable.coffee1, "150", false);
+        Coffee coffee1 = new Coffee("asdasdasdasdasdasd1231qweqwdasdqwdasdasdasd", R.drawable.coffee1, "150", false);
         coffeeList.add(coffee1);
         Coffee coffee2 = new Coffee("Americano", R.drawable.coffee1, "250", false);
         coffeeList.add(coffee2);

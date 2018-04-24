@@ -23,13 +23,14 @@ public class CoffeeViewHolder extends RecyclerView.ViewHolder {
         this.binding = DataBindingUtil.bind(view);
     }
 
-    public void setBinding(Coffee data){
-        binding.setVariable(BR.coffee,data);
+    @BindingAdapter("bind:imageUrl")
+    public static void loadImage(ImageView imageView, int v) {
+        imageView.setImageResource(v);
+    }
+
+    public void setBinding(Coffee data) {
+        binding.setVariable(BR.coffee, data);
 //        binding.setCoffee(data);
 
-    }
-    @BindingAdapter("bind:imageUrl")
-    public static void loadImage(ImageView imageView, int v){
-        imageView.setImageResource(v);
     }
 }

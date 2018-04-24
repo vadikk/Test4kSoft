@@ -24,13 +24,11 @@ import com.example.vadym.test4ksoft.util.ViewPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static String ACTION = "BasketListener";
     private int[] tabIcons = {R.drawable.search, R.drawable.profile};
     private ActivityMainBinding activityMainBinding;
-
     private BasketView basketView;
     private BasketReceiver receiver;
-
-    public static String ACTION = "BasketListener";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
