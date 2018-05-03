@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.databinding.DataBindingUtil;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -44,6 +46,46 @@ public class MainActivity extends AppCompatActivity {
         receiver = new BasketReceiver();
 
         LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(receiver, new IntentFilter(ACTION));
+
+        activityMainBinding.tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int tabColor = ContextCompat.getColor(getApplicationContext(), R.color.colorYellow);
+                if (tab.getIcon() == null) {
+                    basketView.imageView.setColorFilter(tabColor);
+                    return;
+                }
+
+                switch (tab.getPosition()) {
+                    case 0:
+                    case 1:
+                        tab.getIcon().setColorFilter(tabColor, PorterDuff.Mode.SRC_IN);
+                        break;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                int tabColor = ContextCompat.getColor(getApplicationContext(), R.color.colorGrey);
+                if (tab.getIcon() == null) {
+                    basketView.imageView.setColorFilter(tabColor);
+                    return;
+                }
+
+                switch (tab.getPosition()) {
+                    case 0:
+                    case 1:
+                        tab.getIcon().setColorFilter(tabColor, PorterDuff.Mode.SRC_IN);
+                        break;
+                }
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
     }
 
     private void setupTabIcons() {
@@ -59,6 +101,13 @@ public class MainActivity extends AppCompatActivity {
                 currentTab.setCustomView(basketView);
             } else {
                 currentTab.setIcon(tabIcons[i]);
+                if (i == 0) {
+                    currentTab.select();
+                    int tabColor = ContextCompat.getColor(getApplicationContext(), R.color.colorYellow);
+                    if (currentTab.getIcon() != null)
+                        currentTab.getIcon().setColorFilter(tabColor, PorterDuff.Mode.SRC_IN);
+                }
+
             }
         }
     }

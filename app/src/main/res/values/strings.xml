@@ -7,4 +7,11 @@
     <string name="filter">filter</string>
     <string name="nameActivity">Кофе</string>
     <string name="ordering">Повторить последний заказ</string>
+    <string name="name">Имя</string>
+    <string name="number">Телефон</string>
+    <string name="adress">Адрес</string>
+    <string name="card">Карта</string>
+    <string name="cardNumber">Номер карточки</string>
+    <string name="security">Безопасность</string>
+    <string name="order_history">История заказов</string>
 </resources>

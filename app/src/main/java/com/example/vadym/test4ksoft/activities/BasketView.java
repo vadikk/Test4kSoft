@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ import com.example.vadym.test4ksoft.R;
 public class BasketView extends RelativeLayout {
 
     private TextView countView;
+    public ImageView imageView;
 
     public BasketView(Context context) {
         this(context, null);
@@ -41,6 +43,7 @@ public class BasketView extends RelativeLayout {
     private void initView(Context context) {
         View.inflate(context, R.layout.basket_layout, this);
         countView = findViewById(R.id.count);
+        imageView = findViewById(R.id.basket);
         setBasketCount(0);
     }
 

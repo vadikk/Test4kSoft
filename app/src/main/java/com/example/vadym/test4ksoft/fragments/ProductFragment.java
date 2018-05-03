@@ -58,7 +58,7 @@ public class ProductFragment extends Fragment {
         List<Coffee> coffeeList = new ArrayList<>();
         Coffee coffee1 = new Coffee("asdasdasdasdasdasd1231qweqwdasdqwdasdasdasd", R.drawable.coffee1, "150", false);
         coffeeList.add(coffee1);
-        Coffee coffee2 = new Coffee("Americano", R.drawable.coffee1, "250", false);
+        Coffee coffee2 = new Coffee("11112121212122212121212188888", R.drawable.coffee1, "250", false);
         coffeeList.add(coffee2);
         Coffee coffee3 = new Coffee("Black White", R.drawable.coffee1, "50", false);
         coffeeList.add(coffee3);
@@ -66,7 +66,7 @@ public class ProductFragment extends Fragment {
         coffeeList.add(coffee4);
         Coffee coffee5 = new Coffee("No Sugar", R.drawable.coffee1, "120", false);
         coffeeList.add(coffee5);
-        Coffee coffee6 = new Coffee("Free", R.drawable.coffee1, "10", false);
+        Coffee coffee6 = new Coffee("Late", R.drawable.coffee1, "10", false);
         coffeeList.add(coffee6);
 
         adapter.addAll(coffeeList);
