@@ -29,8 +29,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="go_next" />
-                            <entry key="sourceFile" value="C:\Users\Vadym\Downloads\ic_forward_black_24px.svg" />
+                            <entry key="outputName" value="add" />
+                            <entry key="sourceFile" value="C:\Users\Vadym\Downloads\ic_add_circle_outline_black_24px.svg" />
                           </map>
                         </option>
                       </PersistentState>

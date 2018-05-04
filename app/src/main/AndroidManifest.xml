@@ -17,6 +17,7 @@
             </intent-filter>
         </activity>
         <receiver android:name=".activities.MainActivity$BasketReceiver"/>
+
     </application>
 
 </manifest>

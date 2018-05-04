@@ -14,4 +14,14 @@
     <string name="cardNumber">Номер карточки</string>
     <string name="security">Безопасность</string>
     <string name="order_history">История заказов</string>
+    <string name="region">Область</string>
+    <string name="city">Город</string>
+    <string name="index">индекс</string>
+    <string name="street">улица</string>
+    <string name="house">дом</string>
+    <string name="apartment">квартира</string>
+    <string name="city_example">г. Житомир</string>
+    <string name="streat_example">ул. Витрука 2</string>
+    <string name="delivery">Доставка</string>
+    <string name="save">SAVE</string>
 </resources>
