@@ -1,4 +1,4 @@
-package com.example.vadym.test4ksoft.recycler;
+package com.example.vadym.test4ksoft.recycler.product;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

@@ -24,4 +24,8 @@
     <string name="streat_example">ул. Витрука 2</string>
     <string name="delivery">Доставка</string>
     <string name="save">SAVE</string>
+    <string name="error">Заполните поле</string>
+
+    <string name="city_value">г. %1$s</string>
+    <string name="street_value">ул. %1$s %2$s, кв. %3$s</string>
 </resources>

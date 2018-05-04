@@ -1,4 +1,4 @@
-package com.example.vadym.test4ksoft.recycler;
+package com.example.vadym.test4ksoft.recycler.product;
 
 import android.content.Context;
 import android.content.Intent;

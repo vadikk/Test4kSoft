@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import com.example.vadym.test4ksoft.R;
 import com.example.vadym.test4ksoft.databinding.FragmentProductBinding;
 import com.example.vadym.test4ksoft.model.Coffee;
-import com.example.vadym.test4ksoft.recycler.CoffeeRecyclerAdapter;
+import com.example.vadym.test4ksoft.recycler.product.CoffeeRecyclerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

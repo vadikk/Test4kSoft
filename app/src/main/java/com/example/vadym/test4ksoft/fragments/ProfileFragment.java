@@ -42,9 +42,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_profile, container, false);
         View view = binding.getRoot();
 
-//        AppCompatActivity activity = (AppCompatActivity) getActivity();
-//        activity.getSupportActionBar().setTitle("Ghjabkm");
-
         binding.goToAddress.setOnClickListener(this);
 
         return view;

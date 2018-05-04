@@ -46,6 +46,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:ems="10"
                 android:hint="@string/region"
                 android:inputType="textPersonName"
@@ -78,7 +79,7 @@
                 android:ems="10"
                 android:hint="@string/index"
                 android:text="@{address.index}"
-                android:inputType="textPersonName"
+                android:inputType="number"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.675"
                 app:layout_constraintStart_toEndOf="@+id/city"
@@ -112,7 +113,7 @@
                 android:ems="10"
                 android:hint="@string/house"
                 android:text="@{address.building}"
-                android:inputType="textPersonName"
+                android:inputType="number"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/street" />
 
@@ -128,7 +129,7 @@
                 android:ems="10"
                 android:hint="@string/apartment"
                 android:text="@{address.apartment}"
-                android:inputType="textPersonName"
+                android:inputType="number"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/building"
                 app:layout_constraintTop_toBottomOf="@+id/street" />

@@ -1,10 +1,19 @@
 package com.example.vadym.test4ksoft.model;
 
-public class Address {
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
+import java.io.Serializable;
+
+@Entity(tableName = "address")
+public class Address implements Serializable {
+    @SuppressWarnings("NullableProblems")
+    @PrimaryKey
+    @NonNull
+    private String index;
     private String region;
     private String city;
-    private String index;
     private String street;
     private String building;
     private String apartment;
@@ -28,11 +37,12 @@ public class Address {
         this.city = city;
     }
 
+    @NonNull
     public String getIndex() {
         return index;
     }
 
-    public void setIndex(String index) {
+    public void setIndex(@NonNull String index) {
         this.index = index;
     }
 
