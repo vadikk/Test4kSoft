@@ -4,6 +4,8 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import com.example.vadym.test4ksoft.R;
 import com.example.vadym.test4ksoft.databinding.FragmentAddAddressBinding;
 import com.example.vadym.test4ksoft.model.Address;
 import com.example.vadym.test4ksoft.room.AddressListModel;
+import com.example.vadym.test4ksoft.util.Constants;
 
 public class AddAddressFragment extends DialogFragment {
 
@@ -21,14 +24,19 @@ public class AddAddressFragment extends DialogFragment {
 
     private Address addressEdit;
     private boolean isCanEdit = false;
+    private boolean isSaveEdit = false;
 
     public AddAddressFragment() {
         // Required empty public constructor
     }
 
 
-    public static AddAddressFragment newInstance() {
+    public static AddAddressFragment newInstance(Address address, boolean isCanEdit) {
         AddAddressFragment fragment = new AddAddressFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(Constants.ADDRESS, address);
+        args.putBoolean(Constants.EDIT, isCanEdit);
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -36,8 +44,8 @@ public class AddAddressFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            addressEdit = (Address) getArguments().getSerializable("address");
-            isCanEdit = getArguments().getBoolean("edit");
+            addressEdit = (Address) getArguments().getSerializable(Constants.ADDRESS);
+            isCanEdit = getArguments().getBoolean(Constants.EDIT);
         }
     }
 
@@ -54,6 +62,14 @@ public class AddAddressFragment extends DialogFragment {
         if (isCanEdit) {
             isCanEdit = false;
             binding.setAddress(addressEdit);
+
+            binding.region.addTextChangedListener(new MyTextWatcher(binding.region));
+            binding.city.addTextChangedListener(new MyTextWatcher(binding.city));
+            binding.index.addTextChangedListener(new MyTextWatcher(binding.index));
+            binding.street.addTextChangedListener(new MyTextWatcher(binding.street));
+            binding.building.addTextChangedListener(new MyTextWatcher(binding.building));
+            binding.apartment.addTextChangedListener(new MyTextWatcher(binding.apartment));
+
         }
 
         binding.toolBar.setTitle(R.string.delivery);
@@ -64,18 +80,6 @@ public class AddAddressFragment extends DialogFragment {
         binding.save.setOnClickListener(v -> checkTextIsNotNull());
 
         return view;
-    }
-
-    private void editAddress() {
-
-//            addressEdit.setRegion(binding.region.getText().toString());
-//            addressEdit.setCity(binding.city.getText().toString());
-//            addressEdit.setIndex(binding.index.getText().toString());
-//            addressEdit.setStreet(binding.street.getText().toString());
-//            addressEdit.setBuilding(binding.building.getText().toString());
-//            addressEdit.setApartment(binding.apartment.getText().toString());
-
-//        viewModel.update(addressEdit);
     }
 
     private void saveToBD() {
@@ -97,6 +101,10 @@ public class AddAddressFragment extends DialogFragment {
             saveToBD();
             dismiss();
         }
+        if (isSaveEdit) {
+            isSaveEdit = false;
+            viewModel.update(addressEdit);
+        }
     }
 
     private boolean checkTextEmpty(TextView... views) {
@@ -110,5 +118,49 @@ public class AddAddressFragment extends DialogFragment {
         }
 
         return hasError;
+    }
+
+    private class MyTextWatcher implements TextWatcher {
+
+        private View view;
+
+        public MyTextWatcher(View view) {
+            this.view = view;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            isSaveEdit = true;
+            switch (view.getId()) {
+                case R.id.region:
+                    addressEdit.setRegion(s.toString());
+                    break;
+                case R.id.city:
+                    addressEdit.setCity(s.toString());
+                    break;
+                case R.id.index:
+                    addressEdit.setIndex(s.toString());
+                    break;
+                case R.id.street:
+                    addressEdit.setStreet(s.toString());
+                    break;
+                case R.id.building:
+                    addressEdit.setBuilding(s.toString());
+                    break;
+                case R.id.apartment:
+                    addressEdit.setApartment(s.toString());
+                    break;
+            }
+        }
     }
 }

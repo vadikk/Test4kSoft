@@ -11,8 +11,6 @@ import com.example.vadym.test4ksoft.model.Address;
 import java.util.List;
 
 import io.reactivex.Flowable;
-import io.reactivex.Observable;
-import io.reactivex.Single;
 
 import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
 

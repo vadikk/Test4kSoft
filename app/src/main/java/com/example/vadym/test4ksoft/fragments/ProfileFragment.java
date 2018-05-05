@@ -1,24 +1,33 @@
 package com.example.vadym.test4ksoft.fragments;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.vadym.test4ksoft.R;
 import com.example.vadym.test4ksoft.databinding.FragmentProfileBinding;
+import com.example.vadym.test4ksoft.model.Address;
+import com.example.vadym.test4ksoft.util.Constants;
 
 
 public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     private FragmentProfileBinding binding;
+    private BasketReceiver receiver;
+    private boolean isRadioBtnChoose = false;
+    private int posRadioBtn = 0;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -39,8 +48,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_profile, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false);
         View view = binding.getRoot();
+
+        receiver = new ProfileFragment.BasketReceiver();
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(receiver, new IntentFilter(Constants.ACTION));
 
         binding.goToAddress.setOnClickListener(this);
 
@@ -52,16 +64,35 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 
-//        ListAddressFragment fragment = ListAddressFragment.newInstance();
-//        transaction.replace(R.id.fragment,fragment);
-//        Fragment prev = fragmentManager.findFragmentById(R.id.fragment);
-//        if(prev!=null)
-//            transaction.remove(prev);
-
-        DialogFragment fragment = ListAddressFragment.newInstance();
-        fragment.setStyle( DialogFragment.STYLE_NORMAL, R.style.My );
-        fragment.show(fragmentManager,"dialog");
+        DialogFragment fragment = ListAddressFragment.newInstance(isRadioBtnChoose, posRadioBtn);
+        fragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.My);
+        fragment.show(fragmentManager, "dialog");
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    public class BasketReceiver extends BroadcastReceiver {
+
+        public BasketReceiver() {
+
+        }
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action == null) return;
+
+            Address address = null;
+            if (action.equals(Constants.ACTION)) {
+                address = (Address) intent.getSerializableExtra(Constants.ADDRESS);
+                isRadioBtnChoose = intent.getBooleanExtra(Constants.RADIO_BUTTON_IS_CHOOSE, false);
+                posRadioBtn = intent.getIntExtra(Constants.RADIO_BUTTON_POSITION, 0);
+                if(isRadioBtnChoose)
+                    binding.adressTextView.setText(getResources().getString(R.string.street_value, address.getStreet(), address.getBuilding(), address.getApartment()));
+                else
+                    binding.adressTextView.setText(null);
+
+            }
+        }
     }
 }

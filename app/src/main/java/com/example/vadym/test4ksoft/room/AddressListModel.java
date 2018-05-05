@@ -10,8 +10,6 @@ import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
-import io.reactivex.Observable;
-import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 
 public class AddressListModel extends AndroidViewModel {
@@ -39,12 +37,12 @@ public class AddressListModel extends AndroidViewModel {
                 .subscribeOn(Schedulers.io()).subscribe();
     }
 
-    public void delete(Address address){
+    public void delete(Address address) {
         Completable.fromAction(() -> db.addressDao().delete(address))
                 .subscribeOn(Schedulers.io()).subscribe();
     }
 
-    public void update(Address address){
+    public void update(Address address) {
         Completable.fromAction(() -> db.addressDao().update(address))
                 .subscribeOn(Schedulers.io()).subscribe();
     }

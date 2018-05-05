@@ -28,4 +28,5 @@
 
     <string name="city_value">г. %1$s</string>
     <string name="street_value">ул. %1$s %2$s, кв. %3$s</string>
+    <string name="warning">Вы точно хотите удалить!</string>
 </resources>

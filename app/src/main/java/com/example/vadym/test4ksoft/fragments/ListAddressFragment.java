@@ -9,19 +9,16 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.vadym.test4ksoft.R;
 import com.example.vadym.test4ksoft.databinding.FragmentListAdressBinding;
 import com.example.vadym.test4ksoft.model.Address;
 import com.example.vadym.test4ksoft.recycler.address.AddressRecyclerAdapter;
 import com.example.vadym.test4ksoft.room.AddressListModel;
+import com.example.vadym.test4ksoft.util.Constants;
 import com.example.vadym.test4ksoft.util.OnDeleteAddressListener;
 import com.example.vadym.test4ksoft.util.OnEditAddressListener;
 
@@ -29,11 +26,9 @@ import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
-import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 
 public class ListAddressFragment extends DialogFragment implements OnDeleteAddressListener, OnEditAddressListener {
@@ -42,21 +37,37 @@ public class ListAddressFragment extends DialogFragment implements OnDeleteAddre
     private AddressListModel viewModel;
     private CompositeDisposable compositeDisposable;
     private AddressRecyclerAdapter adapter;
-    private boolean isFirstLoad = false;
+    private boolean isRadioBtnChoose = false;
+    private int posRadioBtn = 0;
+    private FragmentManager fragmentManager;
+    private FragmentTransaction transaction;
+
 
     public ListAddressFragment() {
         // Required empty public constructor
     }
 
-    public static ListAddressFragment newInstance() {
+    public static ListAddressFragment newInstance(boolean isRadioBtnChoose, int posRadioBtn) {
         ListAddressFragment fragment = new ListAddressFragment();
+        Bundle args = new Bundle();
+        args.putBoolean(Constants.RADIO_BUTTON_IS_CHOOSE, isRadioBtnChoose);
+        args.putInt(Constants.RADIO_BUTTON_POSITION, posRadioBtn);
+        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            isRadioBtnChoose = getArguments().getBoolean(Constants.RADIO_BUTTON_IS_CHOOSE);
+            posRadioBtn = getArguments().getInt(Constants.RADIO_BUTTON_POSITION);
+        }
 
+        fragmentManager = getFragmentManager();
+        transaction = fragmentManager.beginTransaction();
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     @Override
@@ -75,9 +86,10 @@ public class ListAddressFragment extends DialogFragment implements OnDeleteAddre
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         binding.recycler.setLayoutManager(manager);
 
-        adapter = new AddressRecyclerAdapter();
+        adapter = new AddressRecyclerAdapter(getContext());
         adapter.setOnDeleteListener(this);
         adapter.setOnEditListener(this);
+        adapter.setRadioBtnChoose(isRadioBtnChoose, posRadioBtn);
         binding.recycler.setAdapter(adapter);
 
         binding.toolBar.setTitle(R.string.delivery);
@@ -90,7 +102,6 @@ public class ListAddressFragment extends DialogFragment implements OnDeleteAddre
         });
 
         subscribeUI();
-
 
         return view;
     }
@@ -106,11 +117,11 @@ public class ListAddressFragment extends DialogFragment implements OnDeleteAddre
         compositeDisposable.add(disposable1);
 
     }
+
     private Completable addAllToAdapter(List<Address> address) {
         return Completable.fromAction(() -> {
             adapter.clear();
             adapter.addAll(address);
-
         });
     }
 
@@ -123,26 +134,16 @@ public class ListAddressFragment extends DialogFragment implements OnDeleteAddre
 
     private void goToNextFragment() {
 
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-
-//        AddAddressFragment fragment = AddAddressFragment.newInstance();
-//        transaction.replace(R.id.fragment,fragment);
-//        transaction.addToBackStack(null);
-//        transaction.commit();
-
-        DialogFragment fragment = AddAddressFragment.newInstance();
-        fragment.setStyle( DialogFragment.STYLE_NORMAL, R.style.My );
+        DialogFragment fragment = new AddAddressFragment();
+        fragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.My);
         fragment.show(fragmentManager, "dialog2");
-        transaction.addToBackStack(null);
-        transaction.commit();
     }
 
     @Override
     public void delete(int pos) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Вы точно хотите удалить!")
+        builder.setTitle(R.string.warning)
                 .setCancelable(false)
                 .setPositiveButton("ДА", new DialogInterface.OnClickListener() {
                     @Override
@@ -153,10 +154,10 @@ public class ListAddressFragment extends DialogFragment implements OnDeleteAddre
                     }
                 })
                 .setNegativeButton("НЕТ", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
         AlertDialog alert = builder.create();
         alert.show();
 
@@ -166,23 +167,9 @@ public class ListAddressFragment extends DialogFragment implements OnDeleteAddre
     public void edit(int pos) {
         boolean isCanEdit = true;
         Address address = adapter.getAddress(pos);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("address",address);
-        bundle.putBoolean("edit",isCanEdit);
 
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-
-//        AddAddressFragment fragment = AddAddressFragment.newInstance();
-//        transaction.replace(R.id.fragment,fragment);
-//        transaction.addToBackStack(null);
-//        transaction.commit();
-
-        DialogFragment fragment = AddAddressFragment.newInstance();
-        fragment.setArguments(bundle);
-        fragment.setStyle( DialogFragment.STYLE_NORMAL, R.style.My );
+        DialogFragment fragment = AddAddressFragment.newInstance(address, isCanEdit);
+        fragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.My);
         fragment.show(fragmentManager, "dialog2");
-        transaction.addToBackStack(null);
-//        transaction.commit();
     }
 }

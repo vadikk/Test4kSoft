@@ -18,21 +18,21 @@ public class AddressViewHolder extends RecyclerView.ViewHolder {
         this.binding = DataBindingUtil.bind(itemView);
     }
 
-    public void setBinding(Address address){
-        binding.setVariable(BR.address,address);
-    }
-
-    public void setCountNumber(int countNumber){
+    public void setCountNumber(int countNumber) {
         binding.count.setText(String.valueOf(countNumber));
     }
 
-    public void setText(Address address){
-        binding.textView2.setText(itemView.getResources().getString(R.string.city_value,address.getCity()));
+    public void setText(Address address) {
+        binding.textView2.setText(itemView.getResources().getString(R.string.city_value, address.getCity()));
         binding.textView4.setText(itemView.getResources().getString(R.string.street_value,
-                address.getStreet(),address.getBuilding(),address.getApartment()));
+                address.getStreet(), address.getBuilding(), address.getApartment()));
     }
 
     public AddressLayoutBinding getBinding() {
         return binding;
+    }
+
+    public void setBinding(Address address) {
+        binding.setVariable(BR.address, address);
     }
 }
